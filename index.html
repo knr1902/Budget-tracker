@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> KNR Capital Journal — Advanced Portfolio Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Primary Brand Colors */
+      --primary: hsl(234, 89%, 59%);
+      --primary-dark: hsl(234, 89%, 49%);
+      --primary-light: hsl(234, 89%, 69%);
+      --primary-glow: hsl(234, 89%, 79%);
+      /* Accent Colors */
+      --accent-green: hsl(142, 71%, 45%);
+      --accent-red: hsl(0, 84%, 60%);
+      --accent-orange: hsl(32, 95%, 44%);
+      --accent-purple: hsl(271, 81%, 56%);
+      --accent-blue: hsl(199, 89%, 48%);
+      --accent-pink: hsl(316, 73%, 52%);
+      /* Neutral Palette */
+      --neutral-50: #fafafa;
+      --neutral-100: #f5f5f5;
+      --neutral-200: #e5e5e5;
+      --neutral-300: #d4d4d4;
+      --neutral-400: #a3a3a3;
+      --neutral-500: #737373;
+      --neutral-600: #525252;
+      --neutral-700: #404040;
+      --neutral-800: #262626;
+      --neutral-900: #171717;
+      /* Background & Surface (Light Mode) */
+      --bg-primary: linear-gradient(135deg, #fafbff 0%, #f1f5f9 100%);
+      --bg-secondary: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.8);
+      --bg-elevated: rgba(255, 255, 255, 0.95);
+      --bg-glass: rgba(255, 255, 255, 0.25);
+      /* Text Colors */
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --text-inverse: #ffffff;
+      /* Border & Dividers */
+      --border-primary: rgba(148, 163, 184, 0.2);
+      --border-secondary: rgba(148, 163, 184, 0.1);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      /* Shadows & Effects */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.37);
+      /* Gradients */
+      --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      --gradient-success: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
+      --gradient-danger: linear-gradient(135deg, var(--accent-red) 0%, #dc2626 100%);
+      --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+      --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      /* Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-2xl: 32px;
+      /* Transitions */
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    :root.dark-mode {
+      /* Dark Mode Colors */
+      --primary: hsl(234, 89%, 69%);
+      --primary-dark: hsl(234, 89%, 59%);
+      --primary-light: hsl(234, 89%, 79%);
+      --primary-glow: hsl(234, 89%, 89%);
+      --accent-green: hsl(142, 71%, 55%);
+      --accent-red: hsl(0, 84%, 70%);
+      --accent-orange: hsl(32, 95%, 54%);
+      --accent-purple: hsl(271, 81%, 66%);
+      --accent-blue: hsl(199, 89%, 58%);
+      --accent-pink: hsl(316, 73%, 62%);
+      /* Background & Surface (Dark Mode) */
+      --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.8);
+      --bg-elevated: rgba(30, 41, 59, 0.95);
+      --bg-glass: rgba(30, 41, 59, 0.25);
+      /* Text Colors */
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-inverse: #0f172a;
+      /* Border & Dividers */
+      --border-primary: rgba(148, 163, 184, 0.2);
+      --border-secondary: rgba(148, 163, 184, 0.1);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      /* Shadows & Effects */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+      --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+      --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.5);
+      /* Gradients */
+      --gradient-card: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.7) 100%);
+      --gradient-glass: linear-gradient(145deg, rgba(30, 41, 59, 0.1) 0%, rgba(15, 23, 42, 0.05) 100%);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 14px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: all 0.3s ease-out;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    /* Typography */
+    h1, h3, h4 {
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      margin: 0 0 16px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-light), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 0;
+    }
+    h3 {
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--primary-dark), var(--accent-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    h4 {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+    /* Enhanced Header */
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-primary);
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      flex-wrap: wrap;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    /* Enhanced Buttons */
+    button {
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: var(--gradient-primary);
+      color: var(--text-inverse);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+      font-size: 13px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    button.clear-btn {
+      background: var(--gradient-danger);
+    }
+    button.success-btn {
+      background: var(--gradient-success);
+    }
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s;
+    }
+    button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: var(--shadow-glow);
+    }
+    button:hover::before {
+      left: 100%;
+    }
+    button:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .small {
+      font-size: 11px;
+      padding: 8px 16px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    /* Glassmorphism Form Elements */
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 10px 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-glass);
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+      margin: 0;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .checkbox-group label:hover {
+      background: var(--bg-glass);
+      color: var(--primary-light);
+      transform: translateY(-1px);
+    }
+    input, select {
+      width: 100%;
+      padding: 16px 20px;
+      margin-top: 8px;
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      transition: var(--transition);
+      font-family: inherit;
+      box-shadow: var(--shadow-sm);
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-lg);
+      transform: translateY(-1px);
+    }
+    input[type="file"] {
+      background: var(--bg-elevated);
+      border: 2px dashed var(--border-accent);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    input[type="file"]:hover {
+      border-color: var(--primary);
+      background: var(--bg-glass);
+    }
+    .filter-container {
+        padding: 0 40px 24px 40px;
+        margin-top: -24px;
+    }
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+    .filter-input-group input {
+        margin-top: 0;
+        padding: 12px 16px;
+    }
+    .slider-group {
+      width: 100%;
+      position: relative;
+      height: 32px;
+      margin-top: 12px;
+    }
+    .slider-group input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      position: absolute;
+      pointer-events: none;
+      height: 12px;
+    }
+    .slider-group input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .slider-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      background: var(--gradient-primary);
+      border: 3px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition-bounce);
+      margin-top: -6px;
+      pointer-events: auto;
+    }
+    .slider-group input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: var(--shadow-glow);
+    }
+    /* Glass Cards */
+    .card {
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-glass);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--border-accent);
+    }
+    /* Enhanced Layout */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 32px;
+    }
+    .left-panel, .right-panel {
+      display: flex;
+      flex-direction: column;
+    }
+    #allTransactionsCard {
+      grid-column: 1 / -1; /* Span full width */
+    }
+    /* Enhanced Tables */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 20px;
+      font-size: 13px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-secondary);
+      transition: var(--transition-fast);
+    }
+    th {
+      background: var(--gradient-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    tr:hover td {
+      background: var(--bg-glass);
+      transform: scale(1.01);
+    }
+    .row-actions {
+      display: flex;
+      gap: 8px;
+    }
+    /* Enhanced Charts */
+    .charts {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: stretch; /* Make charts equal height */
+      padding: 32px 40px;
+      justify-content: center;
+    }
+    .chart-container {
+      flex: 1 1 480px; /* Allow flexible growth and shrinking */
+      max-width: 600px;
+      min-width: 300px; /* Prevent charts from becoming too small */
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-2xl);
+      padding: 32px;
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-glass);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .chart-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+    }
+    .chart-container:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+    }
+    canvas {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+      flex: 1;
+      width: 100% !important;
+      height: 100% !important;
+      border: 1px solid var(--border-secondary);
+    }
+    /* Special Rows */
+    #totalReturnsRow td,
+    #totalReturnsRow2 td,
+    #totalRealizedProfitRow td,
+    #totalUnrealizedProfitRow td,
+    #totalReturnsRowFO td {
+      font-weight: 700;
+      background: var(--gradient-glass);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 3px solid var(--primary);
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+    /* Enhanced Notes */
+    .note {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 16px 20px;
+      border-radius: var(--radius-lg);
+      border-left: 4px solid var(--primary);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+    .note::before {
+      content: '💡';
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px 32px 0;
+    }
+    .stat-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    /* Enhanced Dark Mode Toggle */
+    #darkModeToggle {
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-md);
+    }
+    #darkModeToggle:hover {
+      background: var(--gradient-primary);
+      color: var(--text-inverse);
+    }
+    /* Enhanced Scrollbars */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gradient-primary);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--bg-secondary);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+    /* Loading Animation */
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+    @keyframes slideInLeft {
+      from { 
+        opacity: 0; 
+        transform: translateX(-30px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateX(0);
+      }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .card {
+      animation: fadeInUp 0.6s ease-out;
+    }
+    .chart-container {
+      animation: slideInLeft 0.8s ease-out;
+    }
+    .stat-card {
+      animation: fadeInUp 0.4s ease-out;
+    }
+    /* Loading States */
+    .loading {
+      position: relative;
+      overflow: hidden;
+    }
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 2s infinite;
+    }
+    /* Form Enhancement */
+    form {
+      display: grid;
+      gap: 20px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      justify-content: flex-end;
+    }
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .chart-container {
+        height: 450px;
+      }
+      .charts {
+        padding-left: 24px;
+        padding-right: 24px;
+        gap: 24px;
+      }
+    }
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 16px;
+        gap: 12px;
+        justify-content: center;
+      }
+      .controls {
+        justify-content: center;
+      }
+      .checkbox-group {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      h1 {
+        font-size: 1.4rem;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+      .card {
+          padding: 24px;
+      }
+      .form-row, .filter-grid {
+        grid-template-columns: 1fr;
+      }
+      .filter-container, .charts, .grid, .stats-grid {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr 1fr; /* 2 columns for tablets */
+      }
+      .chart-container {
+        max-width: none; /* Allow charts to fill the width */
+      }
+    }
+    @media (max-width: 640px) {
+      .topbar {
+        padding: 12px;
+      }
+      .grid, .stats-grid, .charts, .filter-container {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .card {
+        padding: 20px 16px;
+      }
+      .chart-container {
+        height: 350px;
+        padding: 20px;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* Success/Error/Warning States */
+    .success {
+      color: var(--accent-green) !important;
+    }
+    .error {
+      color: var(--accent-red) !important;
+    }
+    .warning {
+      color: var(--accent-orange) !important;
+    }
+    /* Notification System */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 16px 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-xl);
+      z-index: 1000;
+      transform: translateX(120%);
+      transition: var(--transition);
+      max-width: 300px;
+    }
+    .notification.show {
+      transform: translateX(0);
+    }
+    .notification.success { border-left: 4px solid var(--accent-green); }
+    .notification.error { border-left: 4px solid var(--accent-red); }
+    .notification.loading { border-left: 4px solid var(--accent-orange); }
+    /* Enhanced Input States */
+    input:invalid {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+    input:valid {
+      border-color: var(--accent-green);
+    }
+    /* Micro-interactions */
+    .interactive {
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .interactive:hover {
+      transform: translateY(-2px);
+    }
+    .bounce-in {
+      animation: bounceIn 0.6s ease-out;
+    }
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      70% { transform: scale(0.9); }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    /* Progress Indicators */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-secondary);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient-primary);
+      border-radius: 3px;
+      transition: width 0.5s ease-out;
+    }
+    /* Enhanced Tooltips */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      text-align: center;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      position: absolute;
+      z-index: 1001;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: var(--transition);
+      font-size: 12px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-primary);
+    }
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <h1>Capital Journal</h1>
+    <div class="controls">
+      <button id="exportDataBtn" class="tooltip small success-btn">
+        📊 Export Data
+        <span class="tooltip-text">Export all transactions and LTP data to a single Excel file.</span>
+      </button>
+      <button id="downloadHoldingsBtn" class="tooltip small success-btn" style="background: var(--accent-blue);">
+        📥 Download Open Holdings
+        <span class="tooltip-text">Download only open positions (FIFO) for next year's import.</span>
+      </button>
+      <button id="importDataBtn" class="tooltip small">
+        📂 Import Data
+        <span class="tooltip-text">Import transactions and LTP data from a single Excel file.</span>
+      </button>
+      <input type="file" id="importFileInput" style="display:none" accept=".xls,.xlsx,.csv" />
+      <button id="clearAllBtn" class="clear-btn tooltip small">
+        🗑️ Clear All
+        <span class="tooltip-text">Delete all transactions (irreversible)</span>
+      </button>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="toggleEquity" checked> 🏛️ Equity</label>
+        <label><input type="checkbox" id="toggleDebt" checked> 🏦 Debt</label>
+        <label><input type="checkbox" id="toggleCommodity" checked> 🥇 Commodity</label>
+      </div>
+      <button id="darkModeToggle" class="small">☀️</button>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="totalPortfolioValue">₹0.00</div>
+      <div class="stat-label">Total Portfolio Value</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="totalProfitLoss">₹0.00</div>
+      <div class="stat-label">Total P&L</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="totalReturnPct">0.00%</div>
+      <div class="stat-label">Overall Return</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="cagrValue">0.00%</div>
+      <div class="stat-label">CAGR</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="activePositions">0</div>
+      <div class="stat-label">Active Positions</div>
+    </div>
+  </div>
+  <div class="charts">
+    <div class="chart-container">
+      <h4>💼 Portfolio Value by Scrip</h4>
+      <div class="progress-bar">
+        <div class="progress-fill" id="scripProgress" style="width: 0%"></div>
+      </div>
+      <canvas id="eqValuePie"></canvas>
+    </div>
+    <div class="chart-container">
+      <h4>📈 Portfolio Value by Instrument</h4>
+      <div class="progress-bar">
+        <div class="progress-fill" id="instrumentProgress" style="width: 0%"></div>
+      </div>
+      <canvas id="instrumentValuePie"></canvas>
+    </div>
+  </div>
+  <div class="filter-container">
+    <div class="card">
+        <h3>🔍 Portfolio Holdings Filter</h3>
+        <label>🔍 Filter by Portfolio
+            <select id="portfolioFilter" style="margin-bottom: 24px;">
+              <option value="ALL">All Portfolios</option>
+              <option>KNR Core</option>
+              <option>KNR Satellite</option>
+              <option>KNR EME</option>
+              <option>Rohith Core</option>
+              <option>Rama Core</option>
+              <option>Surya Core</option>
+              <option>Surya EME</option>
+              <option>Siva Core</option>
+            </select>
+        </label>
+        <div class="filter-grid">
+            <div class="filter-input-group">
+                <label for="minValueInput">Min Value (₹)</label>
+                <input type="number" id="minValueInput" min="0" value="0">
+            </div>
+             <div class="filter-input-group">
+                <label for="maxValueInput">Max Value (₹)</label>
+                <input type="number" id="maxValueInput" min="0" value="100">
+            </div>
+        </div>
+        <div class="slider-group" style="margin-top: 20px;">
+          <input type="range" id="lowerValueRange" min="0" max="100" value="0">
+          <input type="range" id="upperValueRange" min="0" max="100" value="100">
+        </div>
+      </div>
+  </div>
+  <div class="grid">
+    <div class="left-panel">
+      <div class="card">
+        <h3>💰 Equity / Debt / Commodity — Add Transaction</h3>
+        <form id="eqForm">
+          <div class="form-row">
+            <label>📅 Date<input type="date" id="eq_date" required></label>
+            <label>🏷️ Scrip Name
+              <input id="eq_scrip" list="scripSuggestions" placeholder="e.g. RELIANCE" required>
+              <datalist id="scripSuggestions"></datalist>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>💵 Price<input id="eq_price" type="number" step="any" placeholder="Trade price" required></label>
+            <label>📊 Quantity<input id="eq_qty" type="number" step="any" min="0" value="1" required></label>
+          </div>
+          <div class="form-row">
+            <label>⚡ Transaction Type
+              <select id="eq_type">
+                <option>Buy</option>
+                <option>Sell</option>
+              </select>
+            </label>
+            <label>🏛️ Instrument Type
+              <select id="eq_instrument">
+                <option>Equity</option>
+                <option>Debt</option>
+                <option>Commodity</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>👤 Person
+              <select id="eq_person">
+                <option>Nagendra</option>
+                <option>Rohith</option>
+                <option>Ramakrishna</option>
+                <option>Surya Kumari</option>
+                <option>Siva Reddy</option>
+              </select>
+            </label>
+            <label>📂 Portfolio Name
+              <select id="eq_portfolio">
+                <option>KNR Core</option>
+                <option>KNR Satellite</option>
+                <option>KNR EME</option>
+                <option>Rohith Core</option>
+                <option>Rama Core</option>
+                <option>Surya Core</option>
+                <option>Surya EME</option>
+                <option>Siva Core</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="clearEq">🗑️ Clear</button>
+            <button type="submit">➕ Add Transaction</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h3>⚡ F&O — Add Transaction</h3>
+        <form id="foForm">
+          <div class="form-row">
+            <label>📅 Date<input type="date" id="fo_date" required></label>
+            <label>🎯 Derivative Name<input id="fo_name" placeholder="e.g. NIFTY" required></label>
+          </div>
+          <div class="form-row">
+            <label>📦 Lot Size<input id="fo_lotsize" type="number" step="any" min="0" value="50" required></label>
+            <label>💵 Price<input id="fo_price" type="number" step="any" placeholder="Trade price" required></label>
+          </div>
+          <div class="form-row">
+            <label>📈 Transaction Type
+              <select id="fo_type">
+                <option>Long</option>
+                <option>Short</option>
+              </select>
+            </label>
+            <label>📊 Quantity / Lots<input id="fo_lots" type="number" step="any" min="0" value="1" required></label>
+          </div>
+          <div class="form-row">
+            <label>👤 Person
+              <select id="fo_person">
+                <option>Nagendra</option>
+                <option>Rohith</option>
+                <option>Ramakrishna</option>
+                <option>Surya Kumari</option>
+                <option>Siva Reddy</option>
+              </select>
+            </label>
+            <label>📂 Portfolio Name
+              <select id="fo_portfolio">
+                <option>KNR Core</option>
+                <option>KNR Satellite</option>
+                <option>KNR EME</option>
+                <option>Rohith Core</option>
+                <option>Rama Core</option>
+                <option>Surya Core</option>
+                <option>Surya EME</option>
+                <option>Siva Core</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="clearFo">🗑️ Clear</button>
+            <button type="submit">➕ Add Transaction</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="card">
+        <h3>📈 Holdings Summary</h3>
+        <div id="summaryArea">
+          <h4>💼 Equity / Debt / Commodity</h4>
+          <table id="eqSummary">
+            <thead>
+              <tr id="totalRealizedProfitRow">
+                <td colspan="4" style="text-align:right;">💰 Total Realized Profit:</td>
+                <td id="totalRealizedProfit" colspan="2"></td>
+              </tr>
+              <tr id="totalUnrealizedProfitRow">
+                <td colspan="4" style="text-align:right;">📊 Total Unrealized Profit:</td>
+                <td id="totalUnrealizedProfit" colspan="2"></td>
+              </tr>
+              <tr id="totalReturnsRow">
+                <td colspan="4" style="text-align:right;">📈 Total Realized Return %:</td>
+                <td id="totalRealizedReturnPct" colspan="2"></td>
+              </tr>
+              <tr id="totalReturnsRow2">
+                <td colspan="4" style="text-align:right;">🎯 Total Unrealized Return %:</td>
+                <td id="totalUnrealizedReturnPct" colspan="2"></td>
+              </tr>
+              <tr>
+                <th>Scrip</th>
+                <th>Instrument</th>
+                <th>Net Qty</th>
+                <th>Avg Price</th>
+                <th>Realized P&L</th>
+                <th>Unrealized P&L</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <h4 style="margin-top:24px">⚡ F&O</h4>
+          <table id="foSummary">
+            <thead>
+              <tr id="totalReturnsRowFO">
+                <td colspan="4" style="text-align:right;">🎯 Total F&O Return:</td>
+                <td id="totalFOReturnPct" colspan="2"></td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <th>Lot Size</th>
+                <th>Net Lots</th>
+                <th>Net Qty</th>
+                <th>Avg Price</th>
+                <th>P&L</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="allTransactionsCard">
+      <h3>📋 All Transactions</h3>
+      <div class="note">💾 Transactions are stored locally in your browser. Use Export/Import to transfer data.</div>
+      <div style="overflow-x: auto;">
+        <table id="txTable">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Scrip/Name</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Instrument</th>
+              <th>Person</th>
+              <th>Portfolio</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="notificationContainer"></div>
+  <script>
+    // --- GLOBAL STATE & CONSTANTS ---
+    const STORAGE_KEY = 'finance_tx_v2';
+    const DARK_MODE_KEY = 'darkModeEnabled_v2';
+    let transactions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    let ltpMap = {};
+    let selectedPortfolio = 'ALL';
+    let activeInstruments = { Equity: true, Debt: true, Commodity: true };
+    let clearTimeoutId = null;
+    // --- CHART INSTANCES ---
+    let eqValueChart = null;
+    let instrumentValueChart = null;
+    // --- DOM ELEMENTS ---
+    const lowerValueRangeInput = document.getElementById('lowerValueRange');
+    const upperValueRangeInput = document.getElementById('upperValueRange');
+    const minValueInput = document.getElementById('minValueInput');
+    const maxValueInput = document.getElementById('maxValueInput');
+    const darkModeToggleBtn = document.getElementById('darkModeToggle');
+    const importFileInput = document.getElementById('importFileInput');
+    // --- UTILITY FUNCTIONS ---
+    /**
+     * Formats a number for display, showing at least two decimal places but keeping all of them.
+     * @param {number} n - The number to format.
+     * @returns {string} The formatted number string.
+     */
+    function formatForDisplay(n) {
+      const num = Number(n);
+      if (isNaN(num)) return '0.00';
+      return new Intl.NumberFormat('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 20 // Allow many decimal places
+      }).format(num);
+    }
+
+    /**
+     * Formats a quantity number for display, restricted to 4 decimal places.
+     * @param {number} n - The number to format.
+     * @returns {string} The formatted number string.
+     */
+    function formatQty(n) {
+      const num = Number(n);
+      if (isNaN(num)) return '0.0000';
+      return new Intl.NumberFormat('en-IN', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 4
+      }).format(num);
+    }
+    
+    /**
+     * Formats a number for average price display, showing at least two decimal places but max 4.
+     * @param {number} n - The number to format.
+     * @returns {string} The formatted number string.
+     */
+    function formatAvgPrice(n) {
+      const num = Number(n);
+      if (isNaN(num)) return '0.0000';
+      return new Intl.NumberFormat('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 4
+      }).format(num);
+    }
+    
+    /**
+     * A simple function to format currency values, always showing two decimal places.
+     * @param {number} n - The number to format as currency.
+     * @returns {string} The formatted currency string.
+     */
+    function formatCurrency(n) {
+      return new Intl.NumberFormat('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(n);
+    }
+    /**
+     * Formats a date string (YYYY-MM-DD) to a more readable format (e.g., 31 Aug 2025).
+     * @param {string} dateString - The date string in YYYY-MM-DD format.
+     * @returns {string} The formatted date string.
+     */
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      const date = new Date(dateString + 'T00:00:00'); // Use T00:00:00 to avoid timezone issues
+      return date.toLocaleDateString('en-GB', options);
+    }
+    /**
+     * Displays a notification message on the screen.
+     * @param {string} message - The message to display.
+     * @param {string} type - The type of notification ('success', 'error', 'loading').
+     */
+    function showNotification(message, type = 'success') {
+      const container = document.getElementById('notificationContainer');
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      container.appendChild(notification);
+      setTimeout(() => notification.classList.add('show'), 100);
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => container.removeChild(notification), 300);
+      }, 3000);
+    }
+    /**
+     * Displays a message on a canvas, typically for when there's no data.
+     * @param {string} canvasId - The ID of the canvas element.
+     * @param {string} message - The message to display.
+     */
+    function showChartMessage(canvasId, message) {
+        const canvas = document.getElementById(canvasId);
+        if(!canvas) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim();
+        ctx.font = '600 14px Inter';
+        ctx.fillText(message, ctx.canvas.width / 2, ctx.canvas.height / 2);
+        ctx.restore();
+    }
+    // --- STATE MANAGEMENT ---
+    /**
+     * Saves the current transactions array to localStorage and triggers a UI refresh.
+     */
+    function saveTx() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+      renderTxTable();
+      computeSummaries();
+      updateScripSuggestions();
+    }
+    /**
+     * Adds an Equity/Debt/Commodity transaction to the state.
+     * @param {object} tx - The transaction object from the form.
+     */
+    function addEq(tx) {
+      transactions.push({
+        section: 'EQ',
+        date: tx.date,
+        scrip: tx.scrip,
+        price: parseFloat(tx.price),
+        type: tx.type,
+        qty: parseFloat(tx.qty),
+        instrument: tx.instrument,
+        person: tx.person,
+        portfolio: tx.portfolio,
+        id: Date.now() + Math.random()
+      });
+      saveTx();
+      showNotification(`Added ${tx.type} transaction for ${tx.scrip}`, 'success');
+    }
+    /**
+     * Adds an F&O transaction to the state.
+     * @param {object} tx - The transaction object from the form.
+     */
+    function addFo(tx) {
+      transactions.push({
+        section: 'FO',
+        date: tx.date,
+        name: tx.name,
+        lotsize: parseFloat(tx.lotsize),
+        price: parseFloat(tx.price),
+        type: tx.type,
+        lots: parseFloat(tx.lots),
+        person: tx.person,
+        portfolio: tx.portfolio,
+        id: Date.now() + Math.random()
+      });
+      saveTx();
+      showNotification(`Added ${tx.type} F&O transaction for ${tx.name}`, 'success');
+    }
+    /**
+     * Deletes a transaction by its index.
+     * @param {number} i - The index of the transaction to delete.
+     */
+    window.deleteTx = function (i) {
+      const tx = transactions[i];
+      transactions.splice(i, 1);
+      saveTx();
+      showNotification(`Deleted transaction for ${tx.scrip || tx.name}`, 'error');
+    }
+    // --- RENDERING & UI UPDATES ---
+    /**
+     * Renders the main transaction table with all entries.
+     */
+    function renderTxTable() {
+      const tbody = document.querySelector('#txTable tbody');
+      tbody.innerHTML = '';
+      if (transactions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">No transactions yet. Add one to get started!</td></tr>';
+        return;
+      }
+      transactions.forEach((t, i) => {
+        const tr = document.createElement('tr');
+        tr.style.animation = 'fadeInUp 0.3s ease-out';
+        if (t.section === 'EQ') {
+          tr.innerHTML = `<td><span style="background: var(--gradient-primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">EQ</span></td><td>${formatDate(t.date)}</td><td><strong>${t.scrip}</strong></td><td>${t.qty}</td><td>₹${t.price}</td><td>${t.instrument}</td><td>${t.person}</td><td>${t.portfolio}</td><td class="row-actions"><button class="small" data-i="${i}" onclick="deleteTx(${i})">🗑️ Delete</button></td>`;
+        } else {
+          const qty = (t.lots || 0) * (t.lotsize || 1);
+          tr.innerHTML = `<td><span style="background: var(--gradient-success); color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">F&O</span></td><td>${formatDate(t.date)}</td><td><strong>${t.name}</strong></td><td>${qty}</td><td>₹${t.price}</td><td>F&O</td><td>${t.person}</td><td>${t.portfolio}</td><td class="row-actions"><button class="small" data-i="${i}" onclick="deleteTx(${i})">🗑️ Delete</button></td>`;
+        }
+        tbody.appendChild(tr);
+      });
+    }
+    /**
+     * Populates the datalist for scrip name suggestions.
+     */
+    function updateScripSuggestions() {
+      const datalist = document.getElementById('scripSuggestions');
+      const scrips = new Set(transactions.filter(t => t.section === 'EQ').map(t => t.scrip));
+      datalist.innerHTML = '';
+      scrips.forEach(scrip => {
+        const option = document.createElement('option');
+        option.value = scrip;
+        datalist.appendChild(option);
+      });
+    }
+    /**
+     * Updates a single stat card at the top of the page.
+     * @param {string} id - The element ID of the stat card value.
+     * @param {string} value - The text content to display.
+     * @param {string} type - 'success' or 'error' for color coding.
+     */
+    function updateStatCard(id, value, type = 'primary') {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value;
+            element.className = `stat-value ${type}`;
+            element.style.animation = 'none'; // Reset animation
+            void element.offsetWidth; // Trigger reflow
+            element.style.animation = 'pulse 0.3s ease-out';
+        }
+    }
+    // --- CORE CALCULATION LOGIC ---
+    /**
+     * Calculates unrealized profit and loss for a holding based on LTP.
+     * @param {string} scrip - The name of the scrip.
+     * @param {number} netQty - The net quantity held.
+     * @param {number} avgPrice - The average buy price.
+     * @returns {number} The calculated unrealized P&L.
+     */
+    function calcUnrealizedPL(scrip, netQty, avgPrice) {
+      if (typeof ltpMap[scrip] === 'undefined' || netQty <= 0) return 0;
+      return (netQty * (ltpMap[scrip] - avgPrice));
+    }
+    /**
+     * The main function to calculate and display all financial summaries and charts.
+     */
+    function computeSummaries() {
+      // Step 1: Initial filtering by portfolio and instrument type
+      const filteredTx = selectedPortfolio === 'ALL' ? transactions : transactions.filter(t => t.portfolio === selectedPortfolio);
+      const eqTx = filteredTx.filter(t => t.section === 'EQ' && activeInstruments[t.instrument]);
+      const foTx = filteredTx.filter(t => t.section === 'FO');
+      // Step 2: Process all holdings to calculate their values and determine the max portfolio value for the slider.
+      const eqGroups = {};
+      eqTx.forEach(t => {
+        const key = `${t.scrip}||${t.instrument}`;
+        if (!eqGroups[key]) eqGroups[key] = { scrip: t.scrip, instrument: t.instrument, buys: [], sells: [] };
+        if (t.type === 'Buy') eqGroups[key].buys.push({ ...t });
+        else eqGroups[key].sells.push({ ...t });
+      });
+      const allHoldings = [];
+      let maxPortfolioValue = 0;
+      Object.values(eqGroups).forEach(g => {
+        let buyQueue = g.buys.map(b => ({ qty: b.qty, price: b.price }));
+        let realizedPL = 0;
+        let closedQty = 0;
+        g.sells.forEach(s => {
+          let qtyToSell = s.qty;
+          while (qtyToSell > 0 && buyQueue.length > 0) {
+            let head = buyQueue[0];
+            let take = Math.min(head.qty, qtyToSell);
+            realizedPL += take * (s.price - head.price);
+            closedQty += take;
+            head.qty -= take;
+            qtyToSell -= take;
+            if (head.qty === 0) buyQueue.shift();
+          }
+        });
+        const remainingBuysQty = buyQueue.reduce((a, b) => a + b.qty, 0);
+        const weightedRemaining = buyQueue.reduce((s, o) => s + (o.qty * o.price), 0);
+        const avgPrice = remainingBuysQty ? (weightedRemaining / remainingBuysQty) : 0;
+        const unrealizedPL = calcUnrealizedPL(g.scrip, remainingBuysQty, avgPrice);
+        const currentValue = weightedRemaining + unrealizedPL;
+        if(remainingBuysQty > 0) {
+            maxPortfolioValue = Math.max(maxPortfolioValue, currentValue);
+        }
+        allHoldings.push({
+          scrip: g.scrip, instrument: g.instrument, netQty: remainingBuysQty, avgPrice,
+          realizedPL, unrealizedPL, currentValue, investedUnrealizedValue: weightedRemaining, closedQty
+        });
+      });
+      // Step 3: Update slider range and set its value to max by default or if it was already at max.
+      const currentMaxFilter = parseFloat(maxValueInput.max);
+      const newMaxFilter = Math.max(100, Math.ceil(maxPortfolioValue));
+      if (newMaxFilter !== currentMaxFilter) {
+          lowerValueRangeInput.max = newMaxFilter;
+          upperValueRangeInput.max = newMaxFilter;
+          minValueInput.max = newMaxFilter;
+          maxValueInput.max = newMaxFilter;
+          if (parseFloat(maxValueInput.value) === currentMaxFilter || currentMaxFilter === 100) {
+              upperValueRangeInput.value = newMaxFilter;
+              maxValueInput.value = newMaxFilter;
+          }
+      }
+      // Step 4: Now read the final, correct filter values.
+      const minFilterValue = parseFloat(minValueInput.value) || 0;
+      const maxFilterValue = parseFloat(maxValueInput.value) || Infinity;
+      // Step 5: Filter holdings based on the slider values and aggregate final stats.
+      const eqSummaryRows = [];
+      let totalInvestedValue = 0, totalRealizedPL = 0, totalUnrealizedPL = 0, totalRealizedInvestedAmount = 0, totalCurrentValue = 0;
+      allHoldings.forEach(h => {
+        if (h.currentValue >= minFilterValue && h.currentValue <= maxFilterValue) {
+          totalInvestedValue += h.investedUnrealizedValue;
+          totalRealizedPL += h.realizedPL;
+          totalUnrealizedPL += h.unrealizedPL;
+          totalCurrentValue += h.currentValue;
+          let investedClosedValue = 0;
+          let qtyClosed = h.closedQty;
+          const g = eqGroups[`${h.scrip}||${h.instrument}`];
+          for (const b of g.buys) {
+            if (qtyClosed <= 0) break;
+            const takeQty = Math.min(b.qty, qtyClosed);
+            investedClosedValue += takeQty * b.price;
+            qtyClosed -= takeQty;
+          }
+          totalRealizedInvestedAmount += investedClosedValue;
+          eqSummaryRows.push(h);
+        }
+      });
+      
+      // --- F&O Calculations ---
+      const foGroupsTemp = {};
+      foTx.forEach(t => {
+        const key = `${t.name}||${t.lotsize}`;
+        if (!foGroupsTemp[key]) foGroupsTemp[key] = { name: t.name, lotsize: t.lotsize, longQueue: [], shortQueue: [], realizedPL: 0, lastPrice: t.price };
+        const g = foGroupsTemp[key];
+        g.lastPrice = t.price;
+        if (t.type === 'Long') {
+          let lotsToProcess = t.lots;
+          while (lotsToProcess > 0 && g.shortQueue.length > 0) {
+            const head = g.shortQueue[0];
+            const matched = Math.min(lotsToProcess, head.lots);
+            g.realizedPL += (head.price - t.price) * matched * g.lotsize;
+            head.lots -= matched;
+            lotsToProcess -= matched;
+            if (head.lots === 0) g.shortQueue.shift();
+          }
+          if (lotsToProcess > 0) g.longQueue.push({ lots: lotsToProcess, price: t.price });
+        } else {
+          let lotsToProcess = t.lots;
+          while (lotsToProcess > 0 && g.longQueue.length > 0) {
+            const head = g.longQueue[0];
+            const matched = Math.min(lotsToProcess, head.lots);
+            g.realizedPL += (t.price - head.price) * matched * g.lotsize;
+            head.lots -= matched;
+            lotsToProcess -= matched;
+            if (head.lots === 0) g.longQueue.shift();
+          }
+          if (lotsToProcess > 0) g.shortQueue.push({ lots: lotsToProcess, price: t.price });
+        }
+      });
+      // --- Aggregate F&O Stats ---
+      const foSummaryRows = [];
+      let totalFOPL = 0;
+      Object.values(foGroupsTemp).forEach(g => {
+        const longRemaining = g.longQueue.reduce((a, b) => a + b.lots, 0);
+        const shortRemaining = g.shortQueue.reduce((a, b) => a + b.lots, 0);
+        const netLots = longRemaining - shortRemaining;
+        let avgPrice = g.lastPrice || 0;
+        if (netLots > 0) {
+          avgPrice = g.longQueue.reduce((s, o) => s + (o.lots * o.price), 0) / longRemaining;
+        } else if (netLots < 0) {
+          avgPrice = g.shortQueue.reduce((s, o) => s + (o.lots * o.price), 0) / shortRemaining;
+        }
+        const unrealizedPL = netLots * ((ltpMap[g.name] || g.lastPrice) - avgPrice) * g.lotsize;
+        const totalPL = g.realizedPL + unrealizedPL;
+        foSummaryRows.push({ name: g.name, lotsize: g.lotsize, netLots, netQty: netLots * g.lotsize, avgPrice, pl: totalPL });
+        totalFOPL += totalPL;
+      });
+
+      // Step 6: Render everything
+      // --- Update Top Stat Cards ---
+      const activePositions = eqSummaryRows.filter(r => r.netQty > 0).length;
+      const totalPL = totalRealizedPL + totalUnrealizedPL + totalFOPL;
+      const totalInvested = totalInvestedValue + totalRealizedInvestedAmount;
+      const overallReturnPct = totalInvested ? (totalPL / totalInvested) * 100 : 0;
+      
+      // --- CAGR CALCULATION ---
+      let cagr = 0;
+      // Merge equity and F&O transactions that are currently visible/active
+      const contributingTx = [...eqTx, ...foTx]; 
+      if (totalInvested > 0 && contributingTx.length > 0) {
+          const timestamps = contributingTx.map(t => new Date(t.date).getTime()).filter(t => !isNaN(t));
+          if (timestamps.length > 0) {
+              const minTimestamp = Math.min(...timestamps);
+              const now = new Date().getTime();
+              // Calculate years diff, defaulting to at least 1 day to avoid infinity/NaN
+              const diffDays = Math.max(1, (now - minTimestamp) / (1000 * 60 * 60 * 24));
+              const years = diffDays / 365.25;
+              
+              const finalValue = totalInvested + totalPL;
+              
+              // Protection against blown accounts or negative equity
+              if (finalValue <= 0) {
+                  cagr = -100; 
+              } else {
+                  // CAGR Formula: (Ending Value / Beginning Value) ^ (1/n) - 1
+                  cagr = (Math.pow(finalValue / totalInvested, 1 / years) - 1) * 100;
+              }
+          }
+      }
+
+      updateStatCard('totalPortfolioValue', '₹' + formatCurrency(totalCurrentValue));
+      updateStatCard('totalProfitLoss', '₹' + formatCurrency(totalPL), totalPL >= 0 ? 'success' : 'error');
+      updateStatCard('totalReturnPct', formatCurrency(overallReturnPct) + '%', overallReturnPct >= 0 ? 'success' : 'error');
+      updateStatCard('cagrValue', formatCurrency(cagr) + '%', cagr >= 0 ? 'success' : 'error');
+      updateStatCard('activePositions', activePositions.toString());
+
+      // --- Render Equity Summary Table ---
+      const eqTbody = document.querySelector('#eqSummary tbody');
+      eqTbody.innerHTML = '';
+      if(eqSummaryRows.length === 0) {
+        eqTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">No holdings match the current filters.</td></tr>';
+      } else {
+        eqSummaryRows.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td><strong>${r.scrip}</strong></td><td><span style="background: var(--gradient-primary); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">${r.instrument}</span></td><td>${formatQty(r.netQty)}</td><td>₹${formatAvgPrice(r.avgPrice)}</td><td class="${r.realizedPL >= 0 ? 'success' : 'error'}">₹${formatCurrency(r.realizedPL)}</td><td class="${r.unrealizedPL >= 0 ? 'success' : 'error'}">₹${formatCurrency(r.unrealizedPL)}</td>`;
+          eqTbody.appendChild(tr);
+        });
+      }
+      const totalRealizedReturnPct = totalRealizedInvestedAmount ? (totalRealizedPL / totalRealizedInvestedAmount) * 100 : 0;
+      const totalUnrealizedReturnPct = totalInvestedValue ? (totalUnrealizedPL / totalInvestedValue) * 100 : 0;
+      document.getElementById('totalRealizedReturnPct').textContent = totalRealizedReturnPct.toFixed(2) + ' %';
+      document.getElementById('totalUnrealizedReturnPct').textContent = totalUnrealizedReturnPct.toFixed(2) + ' %';
+      document.getElementById('totalRealizedProfit').textContent = '₹' + formatCurrency(totalRealizedPL);
+      document.getElementById('totalUnrealizedProfit').textContent = '₹' + formatCurrency(totalUnrealizedPL);
+      document.getElementById('totalRealizedProfit').className = totalRealizedPL >= 0 ? 'success' : 'error';
+      document.getElementById('totalUnrealizedProfit').className = totalUnrealizedPL >= 0 ? 'success' : 'error';
+      
+      // --- Render F&O Table ---
+      const foTbody = document.querySelector('#foSummary tbody');
+      foTbody.innerHTML = '';
+      if(foSummaryRows.length === 0) {
+        foTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">No F&O positions to display.</td></tr>';
+      } else {
+        foSummaryRows.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td><strong>${r.name}</strong></td><td>${formatForDisplay(r.lotsize)}</td><td>${formatQty(r.netLots)}</td><td>${formatQty(r.netQty)}</td><td>₹${formatAvgPrice(r.avgPrice)}</td><td class="${r.pl >= 0 ? 'success' : 'error'}">₹${formatCurrency(r.pl)}</td>`;
+          foTbody.appendChild(tr);
+        });
+      }
+      document.getElementById('totalFOReturnPct').textContent = '₹' + formatCurrency(totalFOPL);
+      document.getElementById('totalFOReturnPct').className = totalFOPL >= 0 ? 'success' : 'error';
+      // --- Update Charts ---
+      updatePie('eqValuePie', eqSummaryRows.reduce((acc, r) => { if (r.netQty > 0) acc[r.scrip] = r.currentValue; return acc; }, {}));
+      updatePie('instrumentValuePie', eqSummaryRows.reduce((acc, r) => { if (r.netQty > 0) acc[r.instrument] = (acc[r.instrument] || 0) + r.currentValue; return acc; }, {}));
+    }
+    // --- CHARTING FUNCTIONS ---
+    /**
+     * Generates an array of colors for charts.
+     * @param {number} n - The number of colors required.
+     * @returns {string[]} An array of hex color codes.
+     */
+    function generateChartColors(n) {
+      const colors = [
+        '#667eea', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#a8edea', '#ff9a9e', 
+        '#ffecd2', '#e0c3fc', '#ffd89b', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', 
+        '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43'
+      ];
+      let result = [];
+      for(let i=0; i<n; i++) { result.push(colors[i % colors.length]); }
+      return result;
+    }
+    /**
+     * Creates or updates a doughnut chart.
+     * @param {string} canvasId - The ID of the canvas element.
+     * @param {object} dataObj - An object with labels as keys and values as data points.
+     */
+    function updatePie(canvasId, dataObj) {
+      // Destroy existing chart to prevent memory leaks and rendering issues
+      if (canvasId === 'eqValuePie' && window.eqValueChart) window.eqValueChart.destroy();
+      if (canvasId === 'instrumentValuePie' && window.instrumentValueChart) window.instrumentValueChart.destroy();
+      const labels = Object.keys(dataObj);
+      const data = labels.map(l => dataObj[l] || 0);
+      // If there's no data, show a message and exit
+      if (labels.length === 0 || data.every(item => item === 0)) {
+        showChartMessage(canvasId, 'No data to display');
+        return;
+      }
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      const chartConfig = {
+        type: 'doughnut',
+        data: {
+          labels,
+          datasets: [{
+            data,
+            backgroundColor: generateChartColors(labels.length),
+            borderWidth: 3,
+            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-elevated').trim(),
+            hoverBorderWidth: 5,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '60%',
+          plugins: {
+            legend: { 
+              display: false,
+              position: 'bottom',
+              labels: {
+                color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim(),
+                font: { size: 11, weight: 600 }, padding: 15, usePointStyle: true, pointStyle: 'circle'
+              }
+            },
+            datalabels: {
+              formatter: (val, ctx) => {
+                const sum = ctx.chart._metasets[0].total;
+                const percentage = (val / sum * 100).toFixed(1);
+                return percentage > 5 ? percentage + '%' : '';
+              },
+              color: '#ffffff', font: { weight: 'bold', size: 12 },
+              textStrokeColor: 'rgba(0, 0, 0, 0.3)', textStrokeWidth: 1
+            }
+          },
+          animation: { animateRotate: true, animateScale: true, duration: 1500, easing: 'easeOutQuart' },
+        },
+        plugins: [ChartDataLabels]
+      };
+      if (canvasId === 'eqValuePie') window.eqValueChart = new Chart(ctx, chartConfig);
+      else if (canvasId === 'instrumentValuePie') window.instrumentValueChart = new Chart(ctx, chartConfig);
+    }
+    // --- EVENT LISTENERS ---
+    document.getElementById('eqForm').addEventListener('submit', e => {
+      e.preventDefault();
+      addEq({
+        date: document.getElementById('eq_date').value,
+        scrip: document.getElementById('eq_scrip').value.trim().toUpperCase(),
+        price: document.getElementById('eq_price').value,
+        type: document.getElementById('eq_type').value,
+        qty: document.getElementById('eq_qty').value,
+        instrument: document.getElementById('eq_instrument').value,
+        person: document.getElementById('eq_person').value,
+        portfolio: document.getElementById('eq_portfolio').value
+      });
+      e.target.reset();
+      setCurrentDate();
+      document.getElementById('eq_scrip').focus();
+    });
+    document.getElementById('foForm').addEventListener('submit', e => {
+      e.preventDefault();
+      addFo({
+        date: document.getElementById('fo_date').value,
+        name: document.getElementById('fo_name').value.trim().toUpperCase(),
+        lotsize: document.getElementById('fo_lotsize').value,
+        price: document.getElementById('fo_price').value,
+        type: document.getElementById('fo_type').value,
+        lots: document.getElementById('fo_lots').value,
+        person: document.getElementById('fo_person').value,
+        portfolio: document.getElementById('fo_portfolio').value
+      });
+      e.target.reset();
+      setCurrentDate();
+      document.getElementById('fo_name').focus();
+    });
+    document.getElementById('clearEq').addEventListener('click', () => { document.getElementById('eqForm').reset(); setCurrentDate(); });
+    document.getElementById('clearFo').addEventListener('click', () => { document.getElementById('foForm').reset(); setCurrentDate(); });
+    document.getElementById('portfolioFilter').addEventListener('change', e => { selectedPortfolio = e.target.value; computeSummaries(); });
+    ["toggleEquity", "toggleDebt", "toggleCommodity"].forEach(id => {
+        document.getElementById(id).addEventListener("change", e => {
+            const instrument = id.replace('toggle', '');
+            activeInstruments[instrument] = e.target.checked;
+            computeSummaries();
+            showNotification(`${instrument} view ${e.target.checked ? 'enabled' : 'disabled'}.`);
+        });
+    });
+    // --- Filter Listeners ---
+    function setupFilterListeners() {
+        const syncInputs = () => computeSummaries();
+        lowerValueRangeInput.addEventListener('input', () => {
+            const lowerValue = parseFloat(lowerValueRangeInput.value);
+            const upperValue = parseFloat(upperValueRangeInput.value);
+            if (lowerValue > upperValue) {
+                lowerValueRangeInput.value = upperValue;
+            }
+            minValueInput.value = lowerValueRangeInput.value;
+            syncInputs();
+        });
+        upperValueRangeInput.addEventListener('input', () => {
+            const lowerValue = parseFloat(lowerValueRangeInput.value);
+            const upperValue = parseFloat(upperValueRangeInput.value);
+            if (upperValue < lowerValue) {
+                upperValueRangeInput.value = lowerValue;
+            }
+            maxValueInput.value = upperValueRangeInput.value;
+            syncInputs();
+        });
+        minValueInput.addEventListener('input', () => {
+            let minVal = parseFloat(minValueInput.value) || 0;
+            let maxVal = parseFloat(maxValueInput.value) || 0;
+            if (minVal > maxVal) {
+                minVal = maxVal;
+                minValueInput.value = minVal;
+            }
+            lowerValueRangeInput.value = minVal;
+            syncInputs();
+        });
+        maxValueInput.addEventListener('input', () => {
+            let minVal = parseFloat(minValueInput.value) || 0;
+            let maxVal = parseFloat(maxValueInput.value) || 0;
+            if (maxVal < minVal) {
+                maxVal = minVal;
+                maxValueInput.value = maxVal;
+            }
+            upperValueRangeInput.value = maxVal;
+            syncInputs();
+        });
+    }
+    // --- CONSOLIDATED IMPORT / EXPORT ---
+    document.getElementById('exportDataBtn').addEventListener('click', () => {
+        const eqRows = transactions.filter(t => t.section === 'EQ').map(t => ({ Date: t.date, Scrip: t.scrip, Price: t.price, Type: t.type, Qty: t.qty, Instrument: t.instrument, Person: t.person, Portfolio: t.portfolio }));
+        const foRows = transactions.filter(t => t.section === 'FO').map(t => ({ Date: t.date, Name: t.name, LotSize: t.lotsize, Price: t.price, Type: t.type, Lots: t.lots, Person: t.person, Portfolio: t.portfolio }));
+        const scripSet = new Set(transactions.map(t => t.scrip || t.name).filter(Boolean));
+        const ltpRows = Array.from(scripSet).map(scrip => ({ 'Scrip': scrip, 'LTP': ltpMap[scrip] || '' }));
+        const wb = XLSX.utils.book_new();
+        if (eqRows.length > 0) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(eqRows), 'Equity_Debt_Commodity');
+        if (foRows.length > 0) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(foRows), 'F&O');
+        if (ltpRows.length > 0) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(ltpRows), 'LTP');
+        XLSX.writeFile(wb, `capital_journal_data_${new Date().toISOString().split('T')[0]}.xlsx`);
+        showNotification('All data exported successfully!', 'success');
+    });
+
+    // --- NEW: DOWNLOAD HOLDINGS ONLY (FIFO) ---
+    document.getElementById('downloadHoldingsBtn').addEventListener('click', () => {
+      // 1. Process Equity
+      const eqTx = transactions.filter(t => t.section === 'EQ');
+      const eqGroups = {};
+      
+      // Group by Scrip and Instrument
+      eqTx.forEach(t => {
+        const key = `${t.scrip}||${t.instrument}`;
+        if (!eqGroups[key]) eqGroups[key] = { scrip: t.scrip, instrument: t.instrument, buys: [], sells: [] };
+        if (t.type === 'Buy') {
+          eqGroups[key].buys.push({ ...t }); // Store full transaction object
+        } else {
+          eqGroups[key].sells.push({ ...t });
+        }
+      });
+
+      const openEqRows = [];
+
+      // FIFO Match logic
+      Object.values(eqGroups).forEach(g => {
+        // Sort buys by date (FIFO)
+        g.buys.sort((a, b) => new Date(a.date) - new Date(b.date));
+        let totalSellQty = g.sells.reduce((sum, s) => sum + s.qty, 0);
+
+        // Remove sells from buys
+        for (let i = 0; i < g.buys.length; i++) {
+          const buy = g.buys[i];
+          if (totalSellQty > 0) {
+            if (buy.qty <= totalSellQty) {
+              // This buy is fully sold
+              totalSellQty -= buy.qty;
+              buy.qty = 0; 
+            } else {
+              // This buy is partially sold
+              buy.qty -= totalSellQty;
+              totalSellQty = 0;
+            }
+          }
+          // If quantity remains, add to open rows
+          if (buy.qty > 0) {
+            openEqRows.push({
+              Date: buy.date,
+              Scrip: buy.scrip,
+              Price: buy.price,
+              Type: 'Buy', // FIFO matching usually results in Buys remaining
+              Qty: buy.qty, // Remaining Qty
+              Instrument: buy.instrument,
+              Person: buy.person,
+              Portfolio: buy.portfolio
+            });
+          }
+        }
+      });
+
+      // 2. Process F&O
+      const foTx = transactions.filter(t => t.section === 'FO');
+      const foGroups = {};
+
+      foTx.forEach(t => {
+        const key = `${t.name}||${t.lotsize}`;
+        if (!foGroups[key]) foGroups[key] = { name: t.name, lotsize: t.lotsize, longs: [], shorts: [] };
+        if (t.type === 'Long') foGroups[key].longs.push({ ...t });
+        else foGroups[key].shorts.push({ ...t });
+      });
+
+      const openFoRows = [];
+
+      Object.values(foGroups).forEach(g => {
+        g.longs.sort((a, b) => new Date(a.date) - new Date(b.date));
+        g.shorts.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        let totalLongs = g.longs.reduce((s, l) => s + l.lots, 0);
+        let totalShorts = g.shorts.reduce((s, sh) => s + sh.lots, 0);
+        const net = totalLongs - totalShorts;
+
+        if (net > 0) {
+            // Net Long: Remove Shorts from Longs
+            let removeQty = totalShorts;
+             for (let i = 0; i < g.longs.length; i++) {
+                const long = g.longs[i];
+                if (removeQty > 0) {
+                    if (long.lots <= removeQty) {
+                        removeQty -= long.lots;
+                        long.lots = 0;
+                    } else {
+                        long.lots -= removeQty;
+                        removeQty = 0;
+                    }
+                }
+                if (long.lots > 0) {
+                    openFoRows.push({
+                        Date: long.date, Name: long.name, LotSize: long.lotsize, Price: long.price,
+                        Type: 'Long', Lots: long.lots, Person: long.person, Portfolio: long.portfolio
+                    });
+                }
+             }
+        } else if (net < 0) {
+             // Net Short: Remove Longs from Shorts
+             let removeQty = totalLongs;
+             for (let i = 0; i < g.shorts.length; i++) {
+                const short = g.shorts[i];
+                if (removeQty > 0) {
+                    if (short.lots <= removeQty) {
+                        removeQty -= short.lots;
+                        short.lots = 0;
+                    } else {
+                        short.lots -= removeQty;
+                        removeQty = 0;
+                    }
+                }
+                if (short.lots > 0) {
+                    openFoRows.push({
+                        Date: short.date, Name: short.name, LotSize: short.lotsize, Price: short.price,
+                        Type: 'Short', Lots: short.lots, Person: short.person, Portfolio: short.portfolio
+                    });
+                }
+             }
+        }
+      });
+
+      // 3. Export
+      const scripSet = new Set([...openEqRows.map(r => r.Scrip), ...openFoRows.map(r => r.Name)]);
+      const ltpRows = Array.from(scripSet).map(scrip => ({ 'Scrip': scrip, 'LTP': ltpMap[scrip] || '' }));
+
+      const wb = XLSX.utils.book_new();
+      if (openEqRows.length > 0) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(openEqRows), 'Equity_Debt_Commodity');
+      if (openFoRows.length > 0) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(openFoRows), 'F&O');
+      if (ltpRows.length > 0) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(ltpRows), 'LTP');
+      
+      XLSX.writeFile(wb, `open_holdings_${new Date().toISOString().split('T')[0]}.xlsx`);
+      showNotification('Open holdings exported successfully!', 'success');
+    });
+
+    document.getElementById('importDataBtn').addEventListener('click', () => importFileInput.click());
+    importFileInput.addEventListener('change', e => {
+        const f = e.target.files[0];
+        if (!f) return;
+        showNotification('Importing data...', 'loading');
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            try {
+                const data = new Uint8Array(ev.target.result);
+                const wb = XLSX.read(data, { type: 'array' });
+                let importedTxCount = 0;
+                let importedLtpCount = 0;
+                const eqSheetName = wb.SheetNames.find(name => name.toLowerCase().includes('equity'));
+                if (eqSheetName && wb.Sheets[eqSheetName]) {
+                    const eqJson = XLSX.utils.sheet_to_json(wb.Sheets[eqSheetName]);
+                    eqJson.forEach(r => {
+                        if (r.Scrip && r.Type) {
+                            transactions.push({ section: 'EQ', date: r.Date || '', scrip: (r.Scrip || '').toString().toUpperCase(), price: parseFloat(r.Price) || 0, type: r.Type, qty: parseFloat(r.Qty) || 0, instrument: r.Instrument || 'Equity', person: r.Person || 'Nagendra', portfolio: r.Portfolio || 'KNR Core', id: Date.now() + Math.random() });
+                            importedTxCount++;
+                        }
+                    });
+                }
+                const foSheetName = wb.SheetNames.find(name => name.toLowerCase().includes('f&o'));
+                if (foSheetName && wb.Sheets[foSheetName]) {
+                    const foJson = XLSX.utils.sheet_to_json(wb.Sheets[foSheetName]);
+                    foJson.forEach(r => {
+                        if (r.Name && r.Type) {
+                            transactions.push({ section: 'FO', date: r.Date || '', name: (r.Name || '').toString().toUpperCase(), lotsize: parseFloat(r.LotSize || r.Lotsize) || 1, price: parseFloat(r.Price) || 0, type: r.Type, lots: parseFloat(r.Lots) || 0, person: r.Person || 'Nagendra', portfolio: r.Portfolio || 'KNR Core', id: Date.now() + Math.random() });
+                            importedTxCount++;
+                        }
+                    });
+                }
+                const ltpSheetName = wb.SheetNames.find(name => name.toLowerCase() === 'ltp');
+                if (ltpSheetName && wb.Sheets[ltpSheetName]) {
+                    const ltpJson = XLSX.utils.sheet_to_json(wb.Sheets[ltpSheetName]);
+                    ltpMap = {}; // Clear old LTP data
+                    ltpJson.forEach(row => {
+                        if (row['Scrip'] && row['LTP'] && !isNaN(parseFloat(row['LTP']))) {
+                           ltpMap[row['Scrip'].toString().trim().toUpperCase()] = parseFloat(row['LTP']);
+                           importedLtpCount++;
+                        }
+                    });
+                }
+                saveTx();
+                computeSummaries(); 
+                showNotification(`Imported ${importedTxCount} txs & ${importedLtpCount} LTPs.`, 'success');
+            } catch (error) { 
+                showNotification('Failed to import data: ' + error.message, 'error'); 
+            }
+        };
+        reader.readAsArrayBuffer(f);
+        e.target.value = null; // Reset file input
+    });
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    clearAllBtn.addEventListener('click', () => {
+      if (clearAllBtn.textContent.includes('Are you sure')) {
+        transactions = [];
+        ltpMap = {};
+        localStorage.removeItem(STORAGE_KEY);
+        saveTx();
+        clearAllBtn.innerHTML = '🗑️ Clear All';
+        showNotification('All data cleared successfully', 'success');
+        if (clearTimeoutId) clearTimeout(clearTimeoutId);
+      } else {
+        clearAllBtn.textContent = 'Are you sure?';
+        clearTimeoutId = setTimeout(() => {
+          clearAllBtn.innerHTML = '🗑️ Clear All';
+        }, 3000);
+      }
+    });
+    // --- THEME MANAGEMENT ---
+    function toggleDarkMode() {
+      const isDarkMode = document.documentElement.classList.toggle('dark-mode');  
+      localStorage.setItem(DARK_MODE_KEY, isDarkMode);
+      darkModeToggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
+      // Re-render charts with new theme colors after a short delay for CSS to apply
+      setTimeout(computeSummaries, 100);
+      showNotification(`Switched to ${isDarkMode ? 'dark' : 'light'} mode`, 'success');
+    }
+    function loadThemePreference() {
+      if (localStorage.getItem(DARK_MODE_KEY) === 'true') {
+        document.documentElement.classList.add('dark-mode');
+        darkModeToggleBtn.textContent = '☀️';
+      } else {
+        darkModeToggleBtn.textContent = '🌙';
+      }
+    }
+    darkModeToggleBtn.addEventListener('click', toggleDarkMode);
+    // --- INITIALIZATION ---
+    function setCurrentDate() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('eq_date').value = today;
+      document.getElementById('fo_date').value = today;
+    }
+    /**
+     * The main entry point of the application.
+     */
+    function init() {
+      loadThemePreference();
+      renderTxTable();
+      computeSummaries();
+      updateScripSuggestions();
+      setCurrentDate();
+      setupFilterListeners();
+      document.querySelectorAll('.card').forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+      showNotification('Welcome to your Capital Journal!', 'success');
+    }
+    // Start the application on DOM content load
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
