@@ -67,7 +67,7 @@
         <div class="flex-1 flex flex-col overflow-y-hidden relative">
             <header class="flex-shrink-0 bg-white/80 backdrop-blur-sm p-4 flex justify-between items-center border-b border-gray-200">
                 <div>
-                    <h1 class="text-xl font-bold text-gray-900">KNR Budget Tracker</h1>
+                    <h1 class="text-xl font-bold text-gray-900">Budget Tracker</h1>
                     <p id="sync-status" class="text-[10px] text-gray-400 font-medium flex items-center gap-1">
                         <span id="sync-icon" class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                         <span id="sync-text">Checking...</span>
@@ -159,6 +159,9 @@
                                 <option value="Lent">Lent (They owe)</option>
                             </select>
                             <input type="number" id="s-amt" placeholder="Amount" class="p-3 rounded-xl border col-span-1" required>
+                            
+                            <input type="text" id="s-remarks" placeholder="Remarks (optional)" class="p-3 rounded-xl border col-span-2">
+                            
                             <button type="submit" id="s-btn" class="col-span-2 bg-indigo-600 text-white font-bold py-3 rounded-xl transition-all active:scale-95">Save to Sheet</button>
                         </form>
                     </section>
@@ -181,6 +184,9 @@
                             <input type="date" id="e-date" class="w-full p-3 border rounded-xl" required>
                             <select id="e-cat" class="w-full p-3 border rounded-xl" required></select>
                             <input type="number" id="e-amt" placeholder="Amount" class="w-full p-3 border rounded-xl" required>
+                            
+                            <input type="text" id="e-remarks" placeholder="Remarks (optional)" class="w-full p-3 border rounded-xl">
+                            
                             <button type="submit" id="exp-save-btn" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold transition-all active:scale-95">Save</button>
                         </form>
                     </div>
@@ -230,15 +236,23 @@
             const tySel = document.getElementById('trend-year');
             const now = new Date();
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
             mSel.innerHTML = monthNames.map((m, i) => `<option value="${i}">${m}</option>`).join('');
-            mSel.value = now.getMonth();
+            
             const curY = now.getFullYear();
             for(let i = curY - 2; i <= 2035; i++) {
                 ySel.innerHTML += `<option value="${i}">${i}</option>`;
                 tySel.innerHTML += `<option value="${i}">${i}-${i+1} (FY)</option>`;
             }
+
+            // SET DEFAULTS TO CURRENT CALENDAR MONTH & YEAR
+            mSel.value = now.getMonth();
             ySel.value = curY;
-            tySel.value = curY;
+
+            // SET DEFAULT FY FOR TREND CHART
+            const currentFY = now.getMonth() < 3 ? curY - 1 : curY;
+            tySel.value = currentFY;
+
             mSel.onchange = () => renderUI(cachedData);
             ySel.onchange = () => renderUI(cachedData);
             tySel.onchange = () => renderTrendChart(cachedData);
@@ -252,10 +266,9 @@
                 ['home-view', 'reports-view', 'settle-view', 'add-expense-view'].forEach(id => document.getElementById(id).classList.toggle('hidden', id !== v));
                 btns.forEach(btn => btn.classList.toggle('active', btn === b));
                 if(v === 'reports-view') renderTrendChart(cachedData);
-                if(v === 'settle-view') {
-                    renderSettlements(cachedData.family, 'family-grid');
-                    renderSettlements(cachedData.others, 'others-grid');
-                }
+                
+                // Triggers generation using the new Settlements tab from Sheet
+                if(v === 'settle-view') renderSettlementsFromSheet(cachedData.settlements);
             });
             document.getElementById('fab').onclick = () => {
                 ['home-view', 'settle-view', 'reports-view'].forEach(id => document.getElementById(id).classList.add('hidden'));
@@ -269,9 +282,12 @@
             try {
                 const res = await fetch(URL);
                 cachedData = await res.json();
+                
+                // Get names for autocomplete
                 const familyNames = cachedData.family.slice(1).map(r => r[2]);
                 const otherNames = cachedData.others.slice(1).map(r => r[2]);
                 existingNames = [...new Set([...familyNames, ...otherNames])].filter(n => n);
+                
                 renderUI(cachedData);
                 updateSyncStatus('success');
             } catch (e) {
@@ -352,25 +368,44 @@
             charts.pie = new Chart(pCtx, { type: 'doughnut', data: { labels: Object.keys(bMap), datasets: [{ data: Object.values(bMap), backgroundColor: categoryColors }] }, options: { plugins: { legend: { display: false } }, cutout: '70%', responsive: true, maintainAspectRatio: false } });
         }
 
-        function renderSettlements(rows, gridId) {
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = '';
-            const balances = {};
-            rows.slice(1).forEach(r => {
-                const name = r[2], type = r[3], amt = parseFloat(r[4]);
-                if(!name) return;
-                if(!balances[name]) balances[name] = 0;
-                balances[name] += (type === 'Lent' ? amt : -amt);
-            });
-            for(let name in balances) {
-                const bal = balances[name];
-                grid.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                        <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase">${name}</p>
-                        <p class="text-sm font-bold ${bal >= 0 ? 'text-green-600' : 'text-red-600'}">
-                            ${bal >= 0 ? 'Owning: ₹' : 'Owe: ₹'}${Math.abs(bal)}
-                        </p>
-                    </div>`;
+        // New function that processes the predefined matrix stored in "Settlements"
+        function renderSettlementsFromSheet(settlementsData) {
+            const fGrid = document.getElementById('family-grid');
+            const oGrid = document.getElementById('others-grid');
+            fGrid.innerHTML = '';
+            oGrid.innerHTML = '';
+            
+            // Loop assumes headers finish on index 1, real data begins index 2
+            for(let i = 2; i < settlementsData.length; i++) {
+                const row = settlementsData[i];
+                
+                // Family Data - Extracted from columns B & C (Indices 1 & 2)
+                const fName = row[1];
+                const fVal = row[2];
+                if (fName && fName.toString().trim() !== "") {
+                    const bal = parseFloat(fVal) || 0;
+                    fGrid.innerHTML += `
+                        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                            <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase">${fName}</p>
+                            <p class="text-sm font-bold ${bal >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${bal >= 0 ? 'Owning: ₹' : 'Owe: ₹'}${Math.abs(bal)}
+                            </p>
+                        </div>`;
+                }
+
+                // Others Data - Extracted from columns E & F (Indices 4 & 5)
+                const oName = row[4];
+                const oVal = row[5];
+                if (oName && oName.toString().trim() !== "") {
+                    const bal = parseFloat(oVal) || 0;
+                    oGrid.innerHTML += `
+                        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                            <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase">${oName}</p>
+                            <p class="text-sm font-bold ${bal >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${bal >= 0 ? 'Owning: ₹' : 'Owe: ₹'}${Math.abs(bal)}
+                            </p>
+                        </div>`;
+                }
             }
         }
 
@@ -382,14 +417,12 @@
             const filterCat = document.getElementById('trend-cat').value;
             const months = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
             
-            // Map categories to colors
             const catColorMap = {};
             budgets.forEach((b, i) => catColorMap[b[0]] = categoryColors[i % categoryColors.length]);
 
             let chartDataSets = [];
 
             if (filterCat === 'all') {
-                // Stacked bar chart showing all categories per month
                 const monthlyCatData = {};
                 budgets.forEach(b => {
                     monthlyCatData[b[0]] = new Array(12).fill(0);
@@ -413,7 +446,6 @@
                     borderRadius: 5
                 }));
             } else {
-                // Single category view with its specific color
                 const values = new Array(12).fill(0);
                 entries.forEach(e => {
                     const d = new Date(e[1]);
@@ -457,7 +489,15 @@
             const btn = document.getElementById('exp-save-btn');
             btn.innerText = "Syncing...";
             updateSyncStatus('syncing');
-            const p = { date: document.getElementById('e-date').value, category: document.getElementById('e-cat').value, amount: document.getElementById('e-amt').value };
+            
+            // Includes new remarks input
+            const p = { 
+                date: document.getElementById('e-date').value, 
+                category: document.getElementById('e-cat').value, 
+                amount: document.getElementById('e-amt').value,
+                remarks: document.getElementById('e-remarks').value 
+            };
+            
             await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
             btn.innerText = "Save";
             document.getElementById('expense-form').reset();
@@ -470,7 +510,18 @@
             const btn = document.getElementById('s-btn');
             btn.innerText = "Syncing...";
             updateSyncStatus('syncing');
-            const p = { action: 'settlement', tab: document.getElementById('s-tab').value, date: document.getElementById('s-date').value, name: document.getElementById('s-name').value, type: document.getElementById('s-type').value, amount: document.getElementById('s-amt').value };
+            
+            // Includes new remarks input
+            const p = { 
+                action: 'settlement', 
+                tab: document.getElementById('s-tab').value, 
+                date: document.getElementById('s-date').value, 
+                name: document.getElementById('s-name').value, 
+                type: document.getElementById('s-type').value, 
+                amount: document.getElementById('s-amt').value,
+                remarks: document.getElementById('s-remarks').value 
+            };
+            
             await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
             btn.innerText = "Save to Sheet";
             document.getElementById('settle-form').reset();
