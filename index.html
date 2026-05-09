@@ -43,6 +43,17 @@
             border-bottom: 1px solid #d4d4d4;
         }
         .autocomplete-items div:hover { background-color: #e9e9e9; }
+        
+        /* Truncate remarks on small screens */
+        .remarks-cell {
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        @media (min-width: 768px) {
+            .remarks-cell { max-width: 300px; }
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center md:p-4">
@@ -68,10 +79,10 @@
             <header class="flex-shrink-0 bg-white/80 backdrop-blur-sm p-4 flex justify-between items-center border-b border-gray-200">
                 <div>
                     <h1 class="text-xl font-bold text-gray-900">Budget Tracker</h1>
-                    <p id="sync-status" class="text-[10px] text-gray-400 font-medium flex items-center gap-1">
+                    <div id="sync-status" class="text-[10px] text-gray-400 font-medium flex items-center gap-1">
                         <span id="sync-icon" class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                         <span id="sync-text">Checking...</span>
-                    </p>
+                    </div>
                 </div>
                 <div class="text-right">
                     <p class="text-xs text-gray-400">Total Spent</p>
@@ -80,6 +91,7 @@
             </header>
 
             <main class="flex-1 p-4 lg:p-6 bg-gray-50 overflow-y-auto">
+                <!-- Home View -->
                 <div id="home-view" class="space-y-6">
                     <section class="bg-indigo-600 rounded-2xl p-5 text-white shadow-lg">
                         <h2 class="text-sm font-medium opacity-90 mb-1">Daily Spending Guide</h2>
@@ -121,13 +133,21 @@
                         <h2 class="text-md font-bold mb-4">Recent Transactions</h2>
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left">
-                                <thead class="text-gray-400 border-b"><tr><th class="py-2">Date</th><th>Cat</th><th class="text-right">Amt</th></tr></thead>
+                                <thead class="text-gray-400 border-b">
+                                    <tr>
+                                        <th class="py-2 pr-2">Date</th>
+                                        <th class="pr-2">Cat</th>
+                                        <th class="pr-2">Remarks</th>
+                                        <th class="text-right">Amt</th>
+                                    </tr>
+                                </thead>
                                 <tbody id="history-body" class="divide-y"></tbody>
                             </table>
                         </div>
                     </section>
                 </div>
 
+                <!-- Reports View -->
                 <div id="reports-view" class="hidden space-y-6">
                     <section class="bg-white rounded-2xl p-4 border border-gray-200">
                         <h2 class="text-lg font-bold mb-4">FY Trend (Apr - Mar)</h2>
@@ -141,8 +161,9 @@
                     </section>
                 </div>
 
+                <!-- Settlements View -->
                 <div id="settle-view" class="hidden space-y-6">
-                    <section class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100">
+                    <section class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 shadow-sm">
                         <h2 class="text-sm font-bold text-indigo-700 mb-4">New Settlement Entry</h2>
                         <form id="settle-form" class="grid grid-cols-2 gap-3 text-xs autocomplete relative">
                             <input type="date" id="s-date" class="p-3 rounded-xl border col-span-1" required>
@@ -159,10 +180,8 @@
                                 <option value="Lent">Lent (They owe)</option>
                             </select>
                             <input type="number" id="s-amt" placeholder="Amount" class="p-3 rounded-xl border col-span-1" required>
-                            
                             <input type="text" id="s-remarks" placeholder="Remarks (optional)" class="p-3 rounded-xl border col-span-2">
-                            
-                            <button type="submit" id="s-btn" class="col-span-2 bg-indigo-600 text-white font-bold py-3 rounded-xl transition-all active:scale-95">Save to Sheet</button>
+                            <button type="submit" id="s-btn" class="col-span-2 bg-indigo-600 text-white font-bold py-3 rounded-xl transition-all active:scale-95 shadow-md">Save to Sheet</button>
                         </form>
                     </section>
 
@@ -177,23 +196,34 @@
                     </div>
                 </div>
 
+                <!-- Add Expense View -->
                 <div id="add-expense-view" class="hidden">
-                    <div class="max-w-md mx-auto bg-white rounded-2xl p-6 border border-gray-200">
+                    <div class="max-w-md mx-auto bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
                         <h2 class="text-lg font-bold mb-4">New Expense</h2>
                         <form id="expense-form" class="space-y-4">
-                            <input type="date" id="e-date" class="w-full p-3 border rounded-xl" required>
-                            <select id="e-cat" class="w-full p-3 border rounded-xl" required></select>
-                            <input type="number" id="e-amt" placeholder="Amount" class="w-full p-3 border rounded-xl" required>
-                            
-                            <input type="text" id="e-remarks" placeholder="Remarks (optional)" class="w-full p-3 border rounded-xl">
-                            
-                            <button type="submit" id="exp-save-btn" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold transition-all active:scale-95">Save</button>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold text-gray-400 ml-1">Date</label>
+                                <input type="date" id="e-date" class="w-full p-3 border rounded-xl" required>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold text-gray-400 ml-1">Category</label>
+                                <select id="e-cat" class="w-full p-3 border rounded-xl" required></select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold text-gray-400 ml-1">Amount</label>
+                                <input type="number" id="e-amt" placeholder="Enter amount" class="w-full p-3 border rounded-xl" required>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold text-gray-400 ml-1">Remarks</label>
+                                <input type="text" id="e-remarks" placeholder="Notes (optional)" class="w-full p-3 border rounded-xl">
+                            </div>
+                            <button type="submit" id="exp-save-btn" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold transition-all active:scale-95 shadow-md">Save Transaction</button>
                         </form>
                     </div>
                 </div>
             </main>
             
-            <button id="fab" class="absolute bottom-20 right-5 md:bottom-6 md:right-6 bg-indigo-600 text-white rounded-full p-4 shadow-lg active:scale-90 z-10">
+            <button id="fab" class="absolute bottom-20 right-5 md:bottom-6 md:right-6 bg-indigo-600 text-white rounded-full p-4 shadow-lg active:scale-90 z-10 transition-transform hover:scale-105">
                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
             </button>
         </div>
@@ -204,7 +234,6 @@
         let charts = { pie: null, bar: null };
         let cachedData = null;
         let existingNames = [];
-        // Color Palette for categories
         const categoryColors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#3B82F6', '#8B5CF6', '#06B6D4'];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -245,11 +274,9 @@
                 tySel.innerHTML += `<option value="${i}">${i}-${i+1} (FY)</option>`;
             }
 
-            // SET DEFAULTS TO CURRENT CALENDAR MONTH & YEAR
             mSel.value = now.getMonth();
             ySel.value = curY;
 
-            // SET DEFAULT FY FOR TREND CHART
             const currentFY = now.getMonth() < 3 ? curY - 1 : curY;
             tySel.value = currentFY;
 
@@ -266,9 +293,7 @@
                 ['home-view', 'reports-view', 'settle-view', 'add-expense-view'].forEach(id => document.getElementById(id).classList.toggle('hidden', id !== v));
                 btns.forEach(btn => btn.classList.toggle('active', btn === b));
                 if(v === 'reports-view') renderTrendChart(cachedData);
-                
-                // Triggers generation using the new Settlements tab from Sheet
-                if(v === 'settle-view') renderSettlementsFromSheet(cachedData.settlements);
+                if(v === 'settle-view' && cachedData) renderSettlementsFromSheet(cachedData.settlements);
             });
             document.getElementById('fab').onclick = () => {
                 ['home-view', 'settle-view', 'reports-view'].forEach(id => document.getElementById(id).classList.add('hidden'));
@@ -283,7 +308,6 @@
                 const res = await fetch(URL);
                 cachedData = await res.json();
                 
-                // Get names for autocomplete
                 const familyNames = cachedData.family.slice(1).map(r => r[2]);
                 const otherNames = cachedData.others.slice(1).map(r => r[2]);
                 existingNames = [...new Set([...familyNames, ...otherNames])].filter(n => n);
@@ -322,10 +346,12 @@
             const budgets = data.budgets.slice(1);
             const selM = parseInt(document.getElementById('home-month').value);
             const selY = parseInt(document.getElementById('home-year').value);
+            
             const filtered = entries.filter(e => {
                 const d = new Date(e[1]);
                 return d.getMonth() === selM && d.getFullYear() === selY;
             });
+
             const eCat = document.getElementById('e-cat');
             const tCat = document.getElementById('trend-cat');
             if(eCat.options.length <= 0) {
@@ -337,11 +363,14 @@
                     tCat.innerHTML += opt;
                 });
             }
+
             const bMap = {}; 
             filtered.forEach(e => bMap[e[2]] = (bMap[e[2]] || 0) + parseFloat(e[3]));
+            
             const totalBudget = budgets.reduce((sum, b) => sum + parseFloat(b[1]), 0);
             const totalSpent = Object.values(bMap).reduce((a, b) => a + b, 0);
             const totalRem = totalBudget - totalSpent;
+            
             const now = new Date();
             let daysLeft = 1;
             if (selM === now.getMonth() && selY === now.getFullYear()) {
@@ -352,40 +381,52 @@
                 daysLeft = new Date(selY, selM + 1, 0).getDate();
                 document.getElementById('days-left').innerText = `${daysLeft} days in period`;
             }
+            
             document.getElementById('daily-allowance').innerText = `₹${totalRem > 0 ? (totalRem / daysLeft).toFixed(0) : 0}`;
             document.getElementById('total-remaining').innerText = `₹${totalRem.toFixed(0)}`;
             document.getElementById('total-spent-val').innerText = `₹${totalSpent.toFixed(0)}`;
+            
             const bBody = document.getElementById('budget-body');
             bBody.innerHTML = budgets.map(b => {
                 const spent = bMap[b[0]] || 0;
                 const rem = b[1] - spent;
                 return `<tr><td class="py-2 font-medium">${b[0]}</td><td><input type="number" value="${b[1]}" class="w-16 border-b text-center outline-none bg-transparent" onchange="updB('${b[0]}',this.value)"></td><td class="${rem<0?'text-red-500 font-bold':'text-green-500'}">₹${rem.toFixed(0)}</td></tr>`;
             }).join('');
+            
             const hBody = document.getElementById('history-body');
-            hBody.innerHTML = [...filtered].reverse().slice(0, 15).map(e => `<tr><td class="py-3 text-xs text-gray-400">${new Date(e[1]).toLocaleDateString()}</td><td class="font-medium">${e[2]}</td><td class="text-right font-bold">₹${e[3]}</td></tr>`).join('');
+            hBody.innerHTML = [...filtered].reverse().slice(0, 20).map(e => {
+                const date = new Date(e[1]).toLocaleDateString(undefined, { day: '2-digit', month: 'short' });
+                const remarks = e[4] || '-';
+                return `
+                    <tr>
+                        <td class="py-3 pr-2 text-xs text-gray-400 font-medium">${date}</td>
+                        <td class="pr-2 font-semibold text-gray-700">${e[2]}</td>
+                        <td class="pr-2 text-xs text-gray-500 italic remarks-cell">${remarks}</td>
+                        <td class="text-right font-bold text-indigo-900">₹${e[3]}</td>
+                    </tr>`;
+            }).join('');
+            
             const pCtx = document.getElementById('pie-chart').getContext('2d');
             if(charts.pie) charts.pie.destroy();
             charts.pie = new Chart(pCtx, { type: 'doughnut', data: { labels: Object.keys(bMap), datasets: [{ data: Object.values(bMap), backgroundColor: categoryColors }] }, options: { plugins: { legend: { display: false } }, cutout: '70%', responsive: true, maintainAspectRatio: false } });
         }
 
-        // New function that processes the predefined matrix stored in "Settlements"
         function renderSettlementsFromSheet(settlementsData) {
+            if(!settlementsData) return;
             const fGrid = document.getElementById('family-grid');
             const oGrid = document.getElementById('others-grid');
             fGrid.innerHTML = '';
             oGrid.innerHTML = '';
             
-            // Loop assumes headers finish on index 1, real data begins index 2
             for(let i = 2; i < settlementsData.length; i++) {
                 const row = settlementsData[i];
                 
-                // Family Data - Extracted from columns B & C (Indices 1 & 2)
                 const fName = row[1];
                 const fVal = row[2];
                 if (fName && fName.toString().trim() !== "") {
                     const bal = parseFloat(fVal) || 0;
                     fGrid.innerHTML += `
-                        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm transition-transform active:scale-95">
                             <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase">${fName}</p>
                             <p class="text-sm font-bold ${bal >= 0 ? 'text-green-600' : 'text-red-600'}">
                                 ${bal >= 0 ? 'Owning: ₹' : 'Owe: ₹'}${Math.abs(bal)}
@@ -393,13 +434,12 @@
                         </div>`;
                 }
 
-                // Others Data - Extracted from columns E & F (Indices 4 & 5)
                 const oName = row[4];
                 const oVal = row[5];
                 if (oName && oName.toString().trim() !== "") {
                     const bal = parseFloat(oVal) || 0;
                     oGrid.innerHTML += `
-                        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm transition-transform active:scale-95">
                             <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase">${oName}</p>
                             <p class="text-sm font-bold ${bal >= 0 ? 'text-green-600' : 'text-red-600'}">
                                 ${bal >= 0 ? 'Owning: ₹' : 'Owe: ₹'}${Math.abs(bal)}
@@ -487,10 +527,11 @@
         document.getElementById('expense-form').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('exp-save-btn');
+            const originalText = btn.innerText;
             btn.innerText = "Syncing...";
+            btn.disabled = true;
             updateSyncStatus('syncing');
             
-            // Includes new remarks input
             const p = { 
                 date: document.getElementById('e-date').value, 
                 category: document.getElementById('e-cat').value, 
@@ -498,20 +539,31 @@
                 remarks: document.getElementById('e-remarks').value 
             };
             
-            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
-            btn.innerText = "Save";
-            document.getElementById('expense-form').reset();
-            document.querySelector('[data-view="home-view"]').click();
-            load();
+            try {
+                await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
+                btn.innerText = "Success!";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    document.getElementById('expense-form').reset();
+                    document.querySelector('[data-view="home-view"]').click();
+                    load();
+                }, 1000);
+            } catch (err) {
+                btn.innerText = "Error";
+                btn.disabled = false;
+                updateSyncStatus('error');
+            }
         };
 
         document.getElementById('settle-form').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('s-btn');
+            const originalText = btn.innerText;
             btn.innerText = "Syncing...";
+            btn.disabled = true;
             updateSyncStatus('syncing');
             
-            // Includes new remarks input
             const p = { 
                 action: 'settlement', 
                 tab: document.getElementById('s-tab').value, 
@@ -522,10 +574,20 @@
                 remarks: document.getElementById('s-remarks').value 
             };
             
-            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
-            btn.innerText = "Save to Sheet";
-            document.getElementById('settle-form').reset();
-            load();
+            try {
+                await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(p) });
+                btn.innerText = "Saved!";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    document.getElementById('settle-form').reset();
+                    load();
+                }, 1000);
+            } catch (err) {
+                btn.innerText = "Error";
+                btn.disabled = false;
+                updateSyncStatus('error');
+            }
         };
     </script>
 </body>
