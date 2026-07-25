@@ -78,8 +78,14 @@
         <div class="flex-1 flex flex-col overflow-y-hidden relative">
             <header class="flex-shrink-0 bg-white/80 backdrop-blur-sm p-4 flex justify-between items-center border-b border-gray-200">
                 <div>
-                    <h1 class="text-xl font-bold text-gray-900">Budget Tracker</h1>
-                    <div id="sync-status" class="text-[10px] text-gray-400 font-medium flex items-center gap-1">
+                    <!-- Added Edit Manually Button Header Section -->
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-xl font-bold text-gray-900">Budget Tracker</h1>
+                        <a href="https://docs.google.com/spreadsheets/d/1GmBgKjMteEhhgJhpB5WZ-81wJCCbM56Tu9wYjGspLO0/edit?gid=0#gid=0" target="_blank" class="text-[10px] uppercase font-bold tracking-wide bg-indigo-50 text-indigo-600 border border-indigo-200 px-2 py-1 rounded-md hover:bg-indigo-100 transition-colors shadow-sm">
+                            Edit Manually
+                        </a>
+                    </div>
+                    <div id="sync-status" class="text-[10px] text-gray-400 font-medium flex items-center gap-1 mt-1">
                         <span id="sync-icon" class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                         <span id="sync-text">Checking...</span>
                     </div>
